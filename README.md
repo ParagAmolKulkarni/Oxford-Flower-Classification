@@ -1,5 +1,4 @@
-# Oxford-Flower-Classification
-Here's the **final comprehensive README.md** for your flower classification project:
+To comprehend the structure of a public dataset, load and examine it (e.g., COCO, Oxford-102 Flowers). Analyze dataset statistics such as the number of classes, description length, and image resolution, and explore and display text descriptions combined with photos.
 
 ```markdown
 # Flower Classification using Oxford-102 Dataset
