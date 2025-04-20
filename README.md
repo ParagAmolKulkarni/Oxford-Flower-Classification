@@ -1,128 +1,108 @@
+```markdown
+
 To comprehend the structure of a public dataset, load and examine it (e.g., COCO, Oxford-102 Flowers). Analyze dataset statistics such as the number of classes, description length, and image resolution, and explore and display text descriptions combined with photos.
 
-```markdown
-# Flower Classification using Oxford-102 Dataset
+# Oxford-102 Flowers Classification 🌸
 
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.3.0-red)](https://pytorch.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A complete pipeline for analyzing and classifying flower images from the Oxford-102 Flowers dataset, achieving **88% accuracy** using transfer learning with ResNet-18.
+A deep learning solution for classifying 102 flower species using **MobileNetV3** with transfer learning. Achieves **77-78% accuracy** in under 5 minutes/epoch on GPU.
 
-![Sample Visualization](https://i.imgur.com/8KjwP7a.png)
+<img src="sample_predictions.png" width=600 alt="Sample Predictions">
 
 ## Features
-- Automatic dataset download & preprocessing
-- Dataset statistics visualization
-- Transfer learning with ResNet-18
-- Performance metrics (Precision, Recall, F1-Score)
-- Cross-platform compatibility (Windows/Linux)
-- CPU-only execution support
 
-## Installation
+- **Transfer Learning**: Uses pretrained MobileNetV3-small
+- **Data Augmentation**: Random crops, flips, and normalization
+- **Evaluation Metrics**:
+  - Classification report (precision/recall/F1)
+  - Confusion matrix visualization
+  - Training progress tracking
+- **Auto-Generated Outputs**: Predictions CSV, visualizations
 
-### Prerequisites
-- [Python 3.9+](https://www.python.org/downloads/)
-- [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+## Requirements
 
-### Using Conda (Recommended)
+- Python 3.8+
+- PyTorch 2.0+
+- torchvision 0.15+
+- matplotlib
+- pandas
+- scikit-learn
+- tqdm
+
 ```bash
-conda create -n flower python=3.9
-conda activate flower
-conda install pytorch torchvision cpuonly -c pytorch
 pip install -r requirements.txt
 ```
 
-### Using pip
+## Installation
+
+1. Clone repository:
 ```bash
-python -m pip install --upgrade pip
-pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+git clone https://github.com/yourusername/flowers-classification.git
+cd flowers-classification
 ```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Dataset Preparation
+
+The Oxford-102 Flowers dataset will auto-download to `data/` on first run.  
+Class labels are auto-generated to `flower_classes.txt` if missing.
 
 ## Usage
 
-### Jupyter Notebook
 ```bash
-jupyter notebook Flower_Analysis.ipynb
+python flower_classifier_final.py
 ```
-1. Execute cells sequentially
-2. Visualizations will appear inline
-3. Models save automatically
 
-### Python Script
+**Optional Arguments**:
 ```bash
-python flower_analysis.py
+--epochs 10           # Number of training epochs
+--batch_size 64       # Batch size (reduce if OOM errors occur)
+--img_size 224        # Input image resolution
 ```
-Expected Output:
+
+## Results
+
+**Output Files**:
+- `best_model.pth` : Trained model weights
+- `confusion_matrix.png` : Class-wise error analysis
+- `training_progress.png` : Accuracy vs epochs
+- `sample_predictions.png` : 9 test samples with predictions
+- `predictions.csv` : Full prediction results
+
+**Example Output**:
 ```
-Training Samples: 8189
-Test Samples: 1640
-[Training logs...]
+Epoch 10/10: 100%|██████████| 16/16 [01:12<00:00, 4.53s/it]
+Accuracy: 77.85%
 Classification Report:
               precision    recall  f1-score   support
-           0       0.89      0.91      0.90       198
-           ...
-    accuracy                           0.88      1640
+    class_001       0.83      0.81      0.82        26
+    class_002       0.78      0.85      0.81        20
+    ...
 ```
 
-## Dataset
-- **Oxford-102 Flowers Dataset** (auto-downloaded)
-- 102 flower classes
-- 8,189 training images
-- 1,640 test images
-- [Class Names File](flower_classes.txt) must be present
+## Model Architecture
 
-## File Structure
-```
-flower-classification/
-├── data/                    # Auto-created dataset
-├── Flower_Analysis.ipynb    # Interactive analysis
-├── flower_analysis.py       # Batch training script
-├── dataset_utils.py         # Training/eval functions
-├── flower_classes.txt       # Class labels (critical)
-├── requirements.txt         # Dependencies
-└── README.md
-```
+**Tech Stack**:
+- Backbone: MobileNetV3-small (pretrained on ImageNet)
+- Classifier: Custom linear layer (102 classes)
+- Optimizer: RMSprop with StepLR scheduling
 
-## Troubleshooting
+**Training**:
+- Input Size: 224x224 RGB
+- Augmentation: Random crops/horizontal flips
+- Loss: Cross Entropy
 
-| Error | Solution |
-|-------|----------|
-| SSL Certificate Error | Run `python -m pip install --upgrade certifi` |
-| Missing DLLs | Install [VC++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) |
-| Class Name Errors | Verify [flower_classes.txt](https://github.com/paragAmolKulkarni/Flower-Classification/raw/main/flower_classes.txt) has 102 entries |
-| Blank Images | Use provided denormalization code in visualization |
-| Torch Import Errors | Reinstall with `--force-reinstall --no-cache-dir` |
-
-## Performance Metrics
-| Metric | Value |
-|--------|-------|
-| Accuracy | 88% |
-| Precision | 85-90% |
-| Recall | 86-91% |
-| F1-Score | 86-89% |
-| Inference Speed | 23 ms/image (CPU) |
-
-## License
-MIT License - See [LICENSE](LICENSE) for details
+**Output**:
+-It will be generated separately and directly in folder named "confusion_matrix.png", "sample perdiction.png", "training_progress.png"
 
 ## Acknowledgments
-- Oxford Visual Geometry Group for the dataset
-- PyTorch team for pretrained models
 
-
-Key Features:
-1. Clear installation instructions for different environments
-2. Step-by-step usage guide
-3. Visual troubleshooting table
-4. Performance benchmarks
-5. Direct links to critical files
-6. Platform-agnostic design
+- Dataset: [Oxford-102 Flowers](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/)
+- PyTorch: [Official Documentation](https://pytorch.org/docs/stable/index.html)
 ```
-**[Sample GitHub Repository](https://github.com/paragAmolKulkarni/Flower-Classification)**  
-*(Includes all files with proper structure)*
-```
-This README:
-- Works for both technical and non-technical users
-- Contains verified commands from our debugging sessions
-- Prevents 90%+ common errors through proper guidance
-- Maintains academic rigor while being approachable
