@@ -99,7 +99,7 @@ Classification Report:
 - Loss: Cross Entropy
 
 **Output**:
--It will be generated separately and directly in folder named "confusion_matrix.png", "sample perdiction.png", "training_progress.png"
+-It will be generated separately and directly in folder named "confusion_matrix.png", "sample perdiction.png", "training_progress.png", also "prediction.csv"
 
 ## Acknowledgments
 
